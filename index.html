@@ -6,18 +6,14 @@
 <title>R. Tachibana — Portfolio</title>
 <meta name="description" content="Graphic & Motion Designer Portfolio">
 
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
-
 <style>
 :root {
   --bg: #ffffff;
   --ink: #1a1a1a;
   --ink-soft: #888;
   --line: #e5e5e5;
-  --serif: 'Cormorant Garamond', 'Hiragino Mincho ProN', serif;
-  --sans: 'Jost', 'Hiragino Sans', sans-serif;
+  --serif: 'Helvetica Neue', Helvetica, Arial, 'Hiragino Sans', sans-serif;
+  --sans: 'Helvetica Neue', Helvetica, Arial, 'Hiragino Sans', sans-serif;
 }
 
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -106,7 +102,6 @@ nav ul a:hover { opacity: 0.5; }
 .hero-poetry span:nth-child(1) { animation-delay: 0.3s; }
 .hero-poetry span:nth-child(2) { animation-delay: 0.6s; padding-left: 4vw; }
 .hero-poetry span:nth-child(3) { animation-delay: 0.9s; padding-left: 8vw; }
-.hero-poetry span:nth-child(4) { animation-delay: 1.2s; padding-left: 12vw; font-style: italic; color: var(--ink-soft); }
 
 @keyframes fadeInUp {
   to { opacity: 1; transform: translateY(0); }
@@ -118,46 +113,6 @@ nav ul a:hover { opacity: 0.5; }
   align-items: flex-end;
   gap: 40px;
   margin-top: 80px;
-}
-
-.counter-block .counter {
-  display: flex;
-  font-family: var(--serif);
-  font-size: clamp(48px, 6vw, 80px);
-  font-weight: 300;
-  line-height: 1;
-  letter-spacing: -0.03em;
-}
-
-.counter-digit {
-  display: inline-block;
-  height: 1em;
-  overflow: hidden;
-  width: 0.55em;
-  text-align: center;
-}
-
-.counter-digit .digits {
-  display: block;
-  line-height: 1;
-  transform: translateY(0);
-  animation: digitRoll 2.5s cubic-bezier(0.7, 0, 0.3, 1) forwards;
-}
-
-.counter-digit:nth-child(1) .digits { animation-delay: 1.5s; --end: -2em; }
-.counter-digit:nth-child(2) .digits { animation-delay: 1.7s; --end: -0em; }
-
-@keyframes digitRoll {
-  0% { transform: translateY(0); }
-  100% { transform: translateY(var(--end, -2em)); }
-}
-
-.counter-label {
-  font-size: 10px;
-  letter-spacing: 0.25em;
-  text-transform: uppercase;
-  color: var(--ink-soft);
-  margin-top: 12px;
 }
 
 .hero-caption {
@@ -652,19 +607,11 @@ footer {
 <section class="hero">
   <div></div>
   <div class="hero-poetry">
-    <span>Print for eyes.</span>
-    <span><em>Motion</em> for hearts.</span>
-    <span>Design for everyone.</span>
-    <span>— and you.</span>
+    <span>Graphic.</span>
+    <span><em>Motion.</em></span>
+    <span>Repeat.</span>
   </div>
   <div class="hero-meta-row">
-    <div class="counter-block">
-      <div class="counter">
-        <span class="counter-digit"><span class="digits">0<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</span></span>
-        <span class="counter-digit"><span class="digits">0<br>1<br>2<br>3<br>4<br>5<br>6<br>7<br>8<br>9</span></span>
-      </div>
-      <div class="counter-label">Selected Works</div>
-    </div>
     <div class="hero-caption">
       Graphic & Motion designer based in Tokyo.<br>
       Catalogs, flyers, and moving images.
@@ -698,15 +645,28 @@ footer {
     </button>
   </div>
 
-  <!-- Lower row: Graphic (vertical, reverse direction) -->
+  <!-- Graphic row 1 (left direction) -->
   <div class="marquee-wrap">
-    <button class="marquee-arrow prev" data-target="graphicMarquee" aria-label="前へ">
+    <button class="marquee-arrow prev" data-target="graphicMarquee1" aria-label="前へ">
       <svg viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"></polyline></svg>
     </button>
-    <div class="marquee" id="graphicMarquee" data-direction="right" data-speed="0.3">
-      <div class="marquee-track" id="graphicTrack"></div>
+    <div class="marquee" id="graphicMarquee1" data-direction="left" data-speed="0.3">
+      <div class="marquee-track" id="graphicTrack1"></div>
     </div>
-    <button class="marquee-arrow next" data-target="graphicMarquee" aria-label="次へ">
+    <button class="marquee-arrow next" data-target="graphicMarquee1" aria-label="次へ">
+      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg>
+    </button>
+  </div>
+
+  <!-- Graphic row 2 (right direction) -->
+  <div class="marquee-wrap">
+    <button class="marquee-arrow prev" data-target="graphicMarquee2" aria-label="前へ">
+      <svg viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"></polyline></svg>
+    </button>
+    <div class="marquee" id="graphicMarquee2" data-direction="right" data-speed="0.3">
+      <div class="marquee-track" id="graphicTrack2"></div>
+    </div>
+    <button class="marquee-arrow next" data-target="graphicMarquee2" aria-label="次へ">
       <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg>
     </button>
   </div>
@@ -733,6 +693,7 @@ footer {
         <dt>Base</dt><dd>Tokyo, Japan</dd>
         <dt>Focus</dt><dd>Catalog / Flyer / Motion</dd>
         <dt>Tools</dt><dd>Illustrator, Photoshop, InDesign, After Effects, Premiere Pro</dd>
+        <dt>Camera</dt><dd>Sony α7 IV / SEL24105G</dd>
         <dt>Status</dt><dd>Open to new opportunities</dd>
       </dl>
     </div>
@@ -746,12 +707,7 @@ footer {
     Let's create<br>
     something <span class="italic">beautiful.</span>
   </h2>
-  <a href="mailto:your@email.com" class="contact-email">your@email.com</a>
-  <div class="contact-socials">
-    <a href="#" target="_blank">Instagram</a>
-    <a href="#" target="_blank">Behance</a>
-    <a href="#" target="_blank">Vimeo</a>
-  </div>
+  <a href="mailto:highcreations2025@gmail.com" class="contact-email">highcreations2025@gmail.com</a>
 </section>
 
 <footer>
@@ -823,9 +779,13 @@ function graphicCard(w) {
   `;
 }
 
-// 2回繰り返して無限ループを実現
+// グラフィックを奇数・偶数インデックスで2段に振り分け
+const graphicWorks1 = graphicWorks.filter((_, i) => i % 2 === 0);
+const graphicWorks2 = graphicWorks.filter((_, i) => i % 2 === 1);
+
 document.getElementById('motionTrack').innerHTML = [...motionWorks, ...motionWorks].map(motionCard).join('');
-document.getElementById('graphicTrack').innerHTML = [...graphicWorks, ...graphicWorks].map(graphicCard).join('');
+document.getElementById('graphicTrack1').innerHTML = [...graphicWorks1, ...graphicWorks1].map(graphicCard).join('');
+document.getElementById('graphicTrack2').innerHTML = [...graphicWorks2, ...graphicWorks2].map(graphicCard).join('');
 
 // ============================================================
 // 🎞️ マーキー自動スクロール制御
@@ -896,7 +856,8 @@ function initMarquee(marqueeId) {
 }
 
 initMarquee('motionMarquee');
-initMarquee('graphicMarquee');
+initMarquee('graphicMarquee1');
+initMarquee('graphicMarquee2');
 
 // ============================================================
 // ◀▶ 矢印ボタン制御
