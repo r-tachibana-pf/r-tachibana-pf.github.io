@@ -1,0 +1,1100 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>R. Tachibana — Portfolio</title>
+<meta name="description" content="Graphic & Motion Designer Portfolio">
+
+<style>
+:root {
+  --bg: #ffffff;
+  --ink: #1a1a1a;
+  --ink-soft: #888;
+  --line: #e5e5e5;
+  --serif: 'Helvetica Neue', Helvetica, Arial, 'Hiragino Sans', sans-serif;
+  --sans: 'Helvetica Neue', Helvetica, Arial, 'Hiragino Sans', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-weight: 300;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+a { color: inherit; text-decoration: none; }
+
+/* ============ NAVIGATION ============ */
+nav {
+  position: fixed;
+  top: 0; left: 0; right: 0;
+  padding: 28px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid var(--line);
+}
+
+.logo {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: 0.02em;
+}
+
+nav ul {
+  display: flex;
+  gap: 36px;
+  list-style: none;
+  font-size: 12px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+}
+
+nav ul a { transition: opacity 0.3s; }
+nav ul a:hover { opacity: 0.5; }
+
+/* ============ HERO ============ */
+.hero {
+  min-height: 100vh;
+  padding: 140px 40px 60px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-poetry {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(56px, 11vw, 180px);
+  line-height: 1.05;
+  letter-spacing: -0.03em;
+  margin-top: 40px;
+}
+
+.hero-poetry span {
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.hero-poetry span em {
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.hero-poetry span:nth-child(1) { animation-delay: 0.3s; }
+
+@keyframes fadeInUp {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.hero-meta-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 40px;
+  margin-top: 80px;
+}
+
+.hero-caption {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 18px;
+  color: var(--ink-soft);
+  max-width: 340px;
+  line-height: 1.5;
+  opacity: 0;
+  transform: translateY(30px);
+  animation: fadeInUp 1.2s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+  animation-delay: 2s;
+}
+
+/* ============ MARQUEE SECTION ============ */
+.works-section {
+  padding: 120px 0;
+  background: var(--bg);
+}
+
+.section-header {
+  padding: 0 40px;
+  margin-bottom: 80px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(44px, 6vw, 96px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+}
+
+.section-title .italic {
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.section-tag {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.section-tag::before {
+  content: '';
+  width: 24px;
+  height: 1px;
+  background: var(--ink-soft);
+}
+
+.section-note {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 17px;
+  color: var(--ink-soft);
+  max-width: 360px;
+  line-height: 1.6;
+}
+
+/* Marquee (JS-controlled scroll) */
+.marquee-wrap {
+  position: relative;
+  width: 100%;
+  margin-bottom: 32px;
+}
+
+.marquee {
+  position: relative;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE */
+  -webkit-mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 4%, black 96%, transparent);
+}
+
+.marquee::-webkit-scrollbar { display: none; }
+
+.marquee-track {
+  display: flex;
+  gap: 24px;
+  width: max-content;
+  padding: 0 4px;
+}
+
+/* Arrow buttons */
+.marquee-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--line);
+  cursor: pointer;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
+  opacity: 0.85;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.06);
+}
+
+.marquee-arrow:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  opacity: 1;
+  transform: translateY(-50%) scale(1.08);
+}
+
+.marquee-arrow:hover svg { stroke: white; }
+
+.marquee-arrow svg {
+  width: 18px;
+  height: 18px;
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  fill: none;
+  transition: stroke 0.3s;
+}
+
+.marquee-arrow.prev { left: 16px; }
+.marquee-arrow.next { right: 16px; }
+
+/* Motion card (horizontal) */
+.motion-card {
+  flex-shrink: 0;
+  width: 520px;
+  cursor: pointer;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.motion-card:hover { transform: translateY(-6px); }
+
+.motion-thumb {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #1a1a1a;
+  overflow: hidden;
+  position: relative;
+}
+
+.motion-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.motion-card:hover .motion-thumb img { transform: scale(1.04); }
+
+.motion-thumb .placeholder {
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-style: italic;
+  background: linear-gradient(135deg, #2a2a2a, #0a0a0a);
+  color: #ccc;
+  font-size: 15px;
+}
+
+.play-icon {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: translate(-50%, -50%);
+  width: 64px;
+  height: 64px;
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  transition: all 0.3s;
+  pointer-events: none;
+}
+
+.motion-card:hover .play-icon {
+  background: rgba(0, 0, 0, 0.6);
+  transform: translate(-50%, -50%) scale(1.1);
+}
+
+.play-icon::after {
+  content: '';
+  width: 0; height: 0;
+  border-left: 12px solid white;
+  border-top: 8px solid transparent;
+  border-bottom: 8px solid transparent;
+  margin-left: 4px;
+}
+
+/* Graphic card (vertical) */
+.graphic-card {
+  flex-shrink: 0;
+  width: 280px;
+  cursor: pointer;
+  transition: transform 0.5s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.graphic-card:hover { transform: translateY(-6px); }
+
+.graphic-thumb {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  background: #f2f0ea;
+  overflow: hidden;
+  position: relative;
+}
+
+.graphic-thumb img {
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.graphic-card:hover .graphic-thumb img { transform: scale(1.04); }
+
+.graphic-thumb .placeholder {
+  width: 100%; height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--serif);
+  font-style: italic;
+  color: var(--ink-soft);
+  background: linear-gradient(135deg, #f5f3ed, #e8e4d8);
+  font-size: 14px;
+  padding: 20px;
+  text-align: center;
+  line-height: 1.4;
+}
+
+.card-caption {
+  margin-top: 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.card-title {
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 17px;
+  font-weight: 400;
+}
+
+.card-meta {
+  font-size: 10px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+/* ============ ABOUT ============ */
+.about {
+  padding: 140px 40px;
+  background: #fafaf7;
+  border-top: 1px solid var(--line);
+  border-bottom: 1px solid var(--line);
+}
+
+.about-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr 1.4fr;
+  gap: 80px;
+  align-items: start;
+}
+
+.about-title {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(40px, 5vw, 72px);
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+}
+
+.about-title .italic {
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.about-text p.lead {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-style: italic;
+  color: var(--ink);
+  line-height: 1.5;
+  margin-bottom: 32px;
+}
+
+.about-text p {
+  font-size: 15px;
+  line-height: 1.9;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+.about-info {
+  margin-top: 40px;
+  padding-top: 32px;
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: 140px 1fr;
+  gap: 16px 24px;
+  font-size: 13px;
+}
+
+.about-info dt {
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  padding-top: 2px;
+}
+
+/* ============ CONTACT ============ */
+.contact {
+  padding: 160px 40px 80px;
+  text-align: center;
+}
+
+.contact-label {
+  font-size: 11px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  margin-bottom: 32px;
+}
+
+.contact-title {
+  font-family: var(--serif);
+  font-weight: 300;
+  font-size: clamp(48px, 8vw, 128px);
+  line-height: 1;
+  letter-spacing: -0.02em;
+  margin-bottom: 56px;
+}
+
+.contact-title .italic {
+  font-style: italic;
+  color: var(--ink-soft);
+}
+
+.contact-email {
+  display: inline-block;
+  font-family: var(--serif);
+  font-size: clamp(22px, 3vw, 34px);
+  font-style: italic;
+  padding: 18px 44px;
+  border: 1px solid var(--ink);
+  border-radius: 999px;
+  transition: all 0.4s cubic-bezier(0.2, 0.8, 0.2, 1);
+}
+
+.contact-email:hover {
+  background: var(--ink);
+  color: var(--bg);
+  transform: translateY(-2px);
+}
+
+.contact-socials {
+  margin-top: 56px;
+  display: flex;
+  justify-content: center;
+  gap: 32px;
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+}
+
+.contact-socials a { transition: opacity 0.3s; }
+.contact-socials a:hover { opacity: 0.5; }
+
+footer {
+  padding: 32px 40px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 10px;
+  letter-spacing: 0.2em;
+  color: var(--ink-soft);
+  text-transform: uppercase;
+  border-top: 1px solid var(--line);
+}
+
+/* ============ LIGHTBOX ============ */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(10, 10, 10, 0.94);
+  z-index: 200;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+}
+
+.lightbox.open { display: flex; }
+
+.lightbox-inner {
+  position: relative;
+}
+
+.lightbox-inner img {
+  max-width: 90vw;
+  max-height: 85vh;
+  object-fit: contain;
+  display: block;
+}
+
+.lightbox-inner iframe {
+  width: min(90vw, 1280px);
+  aspect-ratio: 16/9;
+  border: none;
+  display: block;
+}
+
+.lightbox-close {
+  position: fixed;
+  top: 24px; right: 24px;
+  width: 44px; height: 44px;
+  background: none;
+  border: 1px solid rgba(255,255,255,0.4);
+  border-radius: 50%;
+  color: white;
+  font-size: 18px;
+  cursor: pointer;
+  font-family: var(--sans);
+  transition: background 0.3s;
+}
+
+.lightbox-close:hover { background: rgba(255,255,255,0.1); }
+
+/* ============ DTP SECTION LABEL ============ */
+.dtp-section-label {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 48px 40px 24px;
+}
+
+.dtp-label-line {
+  flex: 1;
+  height: 1px;
+  background: var(--line);
+}
+
+.dtp-label-text {
+  font-size: 11px;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: var(--ink-soft);
+  white-space: nowrap;
+}
+
+/* ============ RESPONSIVE ============ */
+@media (max-width: 900px) {
+  nav { padding: 20px; }
+  nav ul { gap: 20px; font-size: 10px; }
+  .hero { padding: 120px 20px 40px; }
+  .hero-meta-row { flex-direction: column; align-items: flex-start; gap: 32px; margin-top: 60px; }
+  .section-header { padding: 0 20px; margin-bottom: 48px; }
+  .motion-card { width: 320px; }
+  .graphic-card { width: 200px; }
+  .marquee-arrow { width: 42px; height: 42px; }
+  .marquee-arrow.prev { left: 8px; }
+  .marquee-arrow.next { right: 8px; }
+  .marquee-arrow svg { width: 14px; height: 14px; }
+  .about { padding: 80px 20px; }
+  .about-inner { grid-template-columns: 1fr; gap: 40px; }
+  .about-info { grid-template-columns: 100px 1fr; }
+  .contact { padding: 100px 20px 60px; }
+  .contact-email { padding: 14px 28px; font-size: 18px; }
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">R. Tachibana</div>
+  <ul>
+    <li><a href="#works">Works</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<!-- ===== HERO ===== -->
+<section class="hero">
+  <div></div>
+  <div class="hero-poetry">
+    <span>R.Tachibana</span>
+  </div>
+  <div class="hero-meta-row">
+    <div class="hero-caption">
+      Graphic & Motion designer based in Tokyo.<br>
+      Catalogs, flyers, and moving images.
+    </div>
+  </div>
+</section>
+
+<!-- ===== WORKS ===== -->
+<section class="works-section" id="works">
+  <div class="section-header">
+    <div>
+      <div class="section-tag">Selected Works</div>
+      <h2 class="section-title">Motion &<br><span class="italic">Graphic</span> archive.</h2>
+    </div>
+    <div class="section-note">
+      Hover to pause · Click to open.<br>
+      Two streams flow at different speeds.
+    </div>
+  </div>
+
+  <!-- Upper row: Motion (horizontal) -->
+  <div class="marquee-wrap">
+    <button class="marquee-arrow prev" data-target="motionMarquee" aria-label="前へ">
+      <svg viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"></polyline></svg>
+    </button>
+    <div class="marquee" id="motionMarquee" data-direction="left" data-speed="0.4">
+      <div class="marquee-track" id="motionTrack"></div>
+    </div>
+    <button class="marquee-arrow next" data-target="motionMarquee" aria-label="次へ">
+      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg>
+    </button>
+  </div>
+
+  <!-- DTP Upper: Catalog Design -->
+  <div class="dtp-section-label">
+    <span class="dtp-label-line"></span>
+    <span class="dtp-label-text">Catalog Design</span>
+    <span class="dtp-label-line"></span>
+  </div>
+  <div class="marquee-wrap">
+    <button class="marquee-arrow prev" data-target="catalogMarquee1" aria-label="前へ">
+      <svg viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"></polyline></svg>
+    </button>
+    <div class="marquee" id="catalogMarquee1" data-direction="left" data-speed="0.3">
+      <div class="marquee-track" id="catalogTrack1"></div>
+    </div>
+    <button class="marquee-arrow next" data-target="catalogMarquee1" aria-label="次へ">
+      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg>
+    </button>
+  </div>
+  <div class="marquee-wrap">
+    <button class="marquee-arrow prev" data-target="catalogMarquee2" aria-label="前へ">
+      <svg viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"></polyline></svg>
+    </button>
+    <div class="marquee" id="catalogMarquee2" data-direction="right" data-speed="0.3">
+      <div class="marquee-track" id="catalogTrack2"></div>
+    </div>
+    <button class="marquee-arrow next" data-target="catalogMarquee2" aria-label="次へ">
+      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg>
+    </button>
+  </div>
+
+  <!-- DTP Lower: Poster Design -->
+  <div class="dtp-section-label">
+    <span class="dtp-label-line"></span>
+    <span class="dtp-label-text">Poster Design</span>
+    <span class="dtp-label-line"></span>
+  </div>
+  <div class="marquee-wrap">
+    <button class="marquee-arrow prev" data-target="posterMarquee1" aria-label="前へ">
+      <svg viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"></polyline></svg>
+    </button>
+    <div class="marquee" id="posterMarquee1" data-direction="left" data-speed="0.35">
+      <div class="marquee-track" id="posterTrack1"></div>
+    </div>
+    <button class="marquee-arrow next" data-target="posterMarquee1" aria-label="次へ">
+      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg>
+    </button>
+  </div>
+  <div class="marquee-wrap">
+    <button class="marquee-arrow prev" data-target="posterMarquee2" aria-label="前へ">
+      <svg viewBox="0 0 24 24"><polyline points="15 6 9 12 15 18"></polyline></svg>
+    </button>
+    <div class="marquee" id="posterMarquee2" data-direction="right" data-speed="0.35">
+      <div class="marquee-track" id="posterTrack2"></div>
+    </div>
+    <button class="marquee-arrow next" data-target="posterMarquee2" aria-label="次へ">
+      <svg viewBox="0 0 24 24"><polyline points="9 6 15 12 9 18"></polyline></svg>
+    </button>
+  </div>
+</section>
+
+<!-- ===== ABOUT ===== -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div>
+      <div class="section-tag">About</div>
+      <h2 class="about-title">
+        Quiet design,<br>
+        told with <span class="italic">care.</span>
+      </h2>
+    </div>
+    <div class="about-text">
+      <p class="lead">
+        カタログ、チラシ、モーション — 紙と映像、両方の時間軸でブランドの物語を編みます。
+      </p>
+      <p>17歳よりAdobe製品を独学。Illustrator・Photoshopによる印刷グラフィック制作と、Premiere Pro・After Effects・Pro Toolsを用いた映像制作の両方を一貫して手がける。</p>
+      <p>媒体をまたいだワンストップの制作力と、深く没入して仕上げる集中力が強みです。</p>
+
+      <dl class="about-info">
+        <dt>Base</dt><dd>Tokyo, Japan</dd>
+        <dt>Focus</dt><dd>Catalog / Flyer / Motion</dd>
+        <dt>Tools</dt><dd>Illustrator, Photoshop, InDesign, After Effects, Premiere Pro</dd>
+        <dt>Camera</dt><dd>Sony α7 IV / SEL24105G</dd>
+        <dt>Status</dt><dd>Open to new opportunities</dd>
+      </dl>
+    </div>
+  </div>
+</section>
+
+<!-- ===== CONTACT ===== -->
+<section class="contact" id="contact">
+  <div class="contact-label">— Get in touch —</div>
+  <h2 class="contact-title">
+    Let's create<br>
+    something <span class="italic">beautiful.</span>
+  </h2>
+  <a href="mailto:highcreations2025@gmail.com" class="contact-email">highcreations2025@gmail.com</a>
+</section>
+
+<footer>
+  <div>© 2026 R. Tachibana</div>
+  <div>All works are property of their respective owners</div>
+</footer>
+
+<!-- ===== LIGHTBOX ===== -->
+<div class="lightbox" id="lightbox">
+  <button class="lightbox-close" id="lbClose">✕</button>
+  <div class="lightbox-inner" id="lbInner"></div>
+</div>
+
+<script>
+// ============================================================
+// 📝 作品データ — ここを書き換えるだけで作品を追加/編集できます
+// ============================================================
+
+// ▼ 動画作品（上段・横長16:9）
+const motionWorks = [
+  { title: 'Work 01', year: '', youtubeId: '4z3U3uCmdsg' },
+  { title: 'Work 02', year: '', youtubeId: 'gHdYSZnVB0I' },
+  { title: 'Work 03', year: '', youtubeId: 'iI8I5e4KSI8' },
+  { title: 'Work 04', year: '', youtubeId: 'VtuO-67uVnE' },
+  { title: 'Work 05', year: '', youtubeId: 'I23hwTV2Ul8' },
+  { title: 'Work 06', year: '', youtubeId: 'N2ibZuAdBKE' },
+  { title: 'Work 07', year: '', youtubeId: 'O-fJAbpCc9U' },
+  { title: 'Work 08', year: '', youtubeId: 'CMVLOJdmyjA' },
+  { title: 'Work 09', year: '', youtubeId: 'DCe6t3SRrOM' },
+  { title: 'Work 10', year: '', youtubeId: '_wMxyLi0WIY' },
+  { title: 'Work 11', year: '', youtubeId: '0ywHrW2yIAk' },
+  { title: 'Work 12', year: '', youtubeId: 'yKPl2r7WhIM' },
+  { title: 'Work 13', year: '', youtubeId: 'uIY1PR8ecJo' },
+  { title: 'Work 14', year: '', youtubeId: 'Ei8M6HlxuO4' },
+  { title: 'Work 15', year: '', youtubeId: 'AdpMZhY6o60' },
+  { title: 'Work 16', year: '', youtubeId: 'wZyFXpr6Yr4' },
+  { title: 'Work 17', year: '', youtubeId: '2kKR9J0UPGQ' },
+];
+
+// ▼ カタログデザイン（86枚）
+const catalogWorks = [
+  { title: 'Catalog 01', year: '', image: 'images/1-1.jpg' },
+  { title: 'Catalog 02', year: '', image: 'images/1-2.jpg' },
+  { title: 'Catalog 03', year: '', image: 'images/2-1.jpg' },
+  { title: 'Catalog 04', year: '', image: 'images/2-2.jpg' },
+  { title: 'Catalog 05', year: '', image: 'images/3-1.jpg' },
+  { title: 'Catalog 06', year: '', image: 'images/3-2.jpg' },
+  { title: 'Catalog 07', year: '', image: 'images/4-1.jpg' },
+  { title: 'Catalog 08', year: '', image: 'images/4-2.jpg' },
+  { title: 'Catalog 09', year: '', image: 'images/5-1.jpg' },
+  { title: 'Catalog 10', year: '', image: 'images/5-2.jpg' },
+  { title: 'Catalog 11', year: '', image: 'images/6-1.jpg' },
+  { title: 'Catalog 12', year: '', image: 'images/6-2.jpg' },
+  { title: 'Catalog 13', year: '', image: 'images/7-1.jpg' },
+  { title: 'Catalog 14', year: '', image: 'images/7-2.jpg' },
+  { title: 'Catalog 15', year: '', image: 'images/8-1.jpg' },
+  { title: 'Catalog 16', year: '', image: 'images/8-2.jpg' },
+  { title: 'Catalog 17', year: '', image: 'images/9-1.jpg' },
+  { title: 'Catalog 18', year: '', image: 'images/9-2.jpg' },
+  { title: 'Catalog 19', year: '', image: 'images/10-1.jpg' },
+  { title: 'Catalog 20', year: '', image: 'images/10-2.jpg' },
+  { title: 'Catalog 21', year: '', image: 'images/11-1.jpg' },
+  { title: 'Catalog 22', year: '', image: 'images/12-1.jpg' },
+  { title: 'Catalog 23', year: '', image: 'images/13-1.jpg' },
+  { title: 'Catalog 24', year: '', image: 'images/13-2.jpg' },
+  { title: 'Catalog 25', year: '', image: 'images/14-1.jpg' },
+  { title: 'Catalog 26', year: '', image: 'images/15-1.jpg' },
+  { title: 'Catalog 27', year: '', image: 'images/15-2.jpg' },
+  { title: 'Catalog 28', year: '', image: 'images/16-1.jpg' },
+  { title: 'Catalog 29', year: '', image: 'images/16-2.jpg' },
+  { title: 'Catalog 30', year: '', image: 'images/16-3.jpg' },
+  { title: 'Catalog 31', year: '', image: 'images/16-4.jpg' },
+  { title: 'Catalog 32', year: '', image: 'images/16-5.jpg' },
+  { title: 'Catalog 33', year: '', image: 'images/16-6.jpg' },
+  { title: 'Catalog 34', year: '', image: 'images/17-1.jpg' },
+  { title: 'Catalog 35', year: '', image: 'images/17-2.jpg' },
+  { title: 'Catalog 36', year: '', image: 'images/18-1.jpg' },
+  { title: 'Catalog 37', year: '', image: 'images/18-2.jpg' },
+  { title: 'Catalog 38', year: '', image: 'images/19-1.jpg' },
+  { title: 'Catalog 39', year: '', image: 'images/19-2.jpg' },
+  { title: 'Catalog 40', year: '', image: 'images/20-1.jpg' },
+  { title: 'Catalog 41', year: '', image: 'images/20-2.jpg' },
+  { title: 'Catalog 42', year: '', image: 'images/21-1.jpg' },
+  { title: 'Catalog 43', year: '', image: 'images/21-2.jpg' },
+  { title: 'Catalog 44', year: '', image: 'images/22-1.jpg' },
+  { title: 'Catalog 45', year: '', image: 'images/22-2.jpg' },
+  { title: 'Catalog 46', year: '', image: 'images/23-1.jpg' },
+  { title: 'Catalog 47', year: '', image: 'images/23-2.jpg' },
+  { title: 'Catalog 48', year: '', image: 'images/23-3.jpg' },
+  { title: 'Catalog 49', year: '', image: 'images/23-4.jpg' },
+  { title: 'Catalog 50', year: '', image: 'images/23-5.jpg' },
+  { title: 'Catalog 51', year: '', image: 'images/24-1.jpg' },
+  { title: 'Catalog 52', year: '', image: 'images/24-2.jpg' },
+  { title: 'Catalog 53', year: '', image: 'images/25-1.jpg' },
+  { title: 'Catalog 54', year: '', image: 'images/25-2.jpg' },
+  { title: 'Catalog 55', year: '', image: 'images/26-1.jpg' },
+  { title: 'Catalog 56', year: '', image: 'images/26-2.jpg' },
+  { title: 'Catalog 57', year: '', image: 'images/27.jpg' },
+  { title: 'Catalog 58', year: '', image: 'images/28.jpg' },
+  { title: 'Catalog 59', year: '', image: 'images/29-1.jpg' },
+  { title: 'Catalog 60', year: '', image: 'images/29-2.jpg' },
+  { title: 'Catalog 61', year: '', image: 'images/30.jpg' },
+  { title: 'Catalog 62', year: '', image: 'images/31-1.jpg' },
+  { title: 'Catalog 63', year: '', image: 'images/31-2.jpg' },
+  { title: 'Catalog 64', year: '', image: 'images/32-1.jpg' },
+  { title: 'Catalog 65', year: '', image: 'images/32-2.jpg' },
+  { title: 'Catalog 66', year: '', image: 'images/33-1.jpg' },
+  { title: 'Catalog 67', year: '', image: 'images/33-2.jpg' },
+  { title: 'Catalog 68', year: '', image: 'images/34-1.jpg' },
+  { title: 'Catalog 69', year: '', image: 'images/34-2.jpg' },
+  { title: 'Catalog 70', year: '', image: 'images/35-1.jpg' },
+  { title: 'Catalog 71', year: '', image: 'images/35-2.jpg' },
+  { title: 'Catalog 72', year: '', image: 'images/36-1.jpg' },
+  { title: 'Catalog 73', year: '', image: 'images/36-2.jpg' },
+  { title: 'Catalog 74', year: '', image: 'images/37-1.jpg' },
+  { title: 'Catalog 75', year: '', image: 'images/37-2.jpg' },
+  { title: 'Catalog 76', year: '', image: 'images/38.jpg' },
+  { title: 'Catalog 77', year: '', image: 'images/39.jpg' },
+  { title: 'Catalog 78', year: '', image: 'images/40.jpg' },
+  { title: 'Catalog 79', year: '', image: 'images/41-1.jpg' },
+  { title: 'Catalog 80', year: '', image: 'images/41-2.jpg' },
+  { title: 'Catalog 81', year: '', image: 'images/42.jpg' },
+  { title: 'Catalog 82', year: '', image: 'images/43.jpg' },
+  { title: 'Catalog 83', year: '', image: 'images/44.jpg' },
+  { title: 'Catalog 84', year: '', image: 'images/45.jpg' },
+  { title: 'Catalog 85', year: '', image: 'images/46.jpg' },
+  { title: 'Catalog 86', year: '', image: 'images/47.jpg' },
+];
+
+// ▼ ポスターデザイン（29枚）
+const posterWorks = [
+  { title: 'Poster 01', year: '', image: 'images/100.jpg' },
+  { title: 'Poster 02', year: '', image: 'images/101.jpg' },
+  { title: 'Poster 03', year: '', image: 'images/102.jpg' },
+  { title: 'Poster 04', year: '', image: 'images/103.jpg' },
+  { title: 'Poster 05', year: '', image: 'images/104.jpg' },
+  { title: 'Poster 06', year: '', image: 'images/105.jpg' },
+  { title: 'Poster 07', year: '', image: 'images/106.jpg' },
+  { title: 'Poster 08', year: '', image: 'images/107.jpg' },
+  { title: 'Poster 09', year: '', image: 'images/108.jpg' },
+  { title: 'Poster 10', year: '', image: 'images/109.jpg' },
+  { title: 'Poster 11', year: '', image: 'images/110.jpg' },
+  { title: 'Poster 12', year: '', image: 'images/111.jpg' },
+  { title: 'Poster 13', year: '', image: 'images/112.jpg' },
+  { title: 'Poster 14', year: '', image: 'images/113.jpg' },
+  { title: 'Poster 15', year: '', image: 'images/114.jpg' },
+  { title: 'Poster 16', year: '', image: 'images/115.jpg' },
+  { title: 'Poster 17', year: '', image: 'images/116.jpg' },
+  { title: 'Poster 18', year: '', image: 'images/117.jpg' },
+  { title: 'Poster 19', year: '', image: 'images/118.jpg' },
+  { title: 'Poster 20', year: '', image: 'images/119.jpg' },
+  { title: 'Poster 21', year: '', image: 'images/120.jpg' },
+  { title: 'Poster 22', year: '', image: 'images/121.jpg' },
+  { title: 'Poster 23', year: '', image: 'images/122.jpg' },
+  { title: 'Poster 24', year: '', image: 'images/123.jpg' },
+  { title: 'Poster 25', year: '', image: 'images/124.jpg' },
+  { title: 'Poster 26', year: '', image: 'images/125.jpg' },
+  { title: 'Poster 27', year: '', image: 'images/126.jpg' },
+  { title: 'Poster 28', year: '', image: 'images/127.jpg' },
+  { title: 'Poster 29', year: '', image: 'images/128.jpg' },
+];
+
+// ============================================================
+
+function motionCard(w) {
+  const has = w.youtubeId && w.youtubeId.trim();
+  const media = has
+    ? `<img src="https://img.youtube.com/vi/${w.youtubeId}/maxresdefault.jpg" alt="${w.title}" onerror="this.src='https://img.youtube.com/vi/${w.youtubeId}/hqdefault.jpg'">`
+    : `<div class="placeholder">— ${w.title} —</div>`;
+  return `
+    <div class="motion-card" data-type="youtube" data-id="${w.youtubeId || ''}">
+      <div class="motion-thumb">
+        ${media}
+        ${has ? '<div class="play-icon"></div>' : ''}
+      </div>
+      <div class="card-caption">
+        <div class="card-title">${w.title}</div>
+        <div class="card-meta">${w.year ? `Motion · ${w.year}` : 'Motion'}</div>
+      </div>
+    </div>
+  `;
+}
+
+function graphicCard(w, category) {
+  const has = w.image && w.image.trim();
+  const media = has
+    ? `<img src="${w.image}" alt="${w.title}">`
+    : `<div class="placeholder">— ${w.title} —</div>`;
+  return `
+    <div class="graphic-card" data-type="image" data-src="${w.image || ''}">
+      <div class="graphic-thumb">${media}</div>
+      <div class="card-caption">
+        <div class="card-title">${w.title}</div>
+        <div class="card-meta">${category}${w.year ? ` · ${w.year}` : ''}</div>
+      </div>
+    </div>
+  `;
+}
+
+// カタログを奇数・偶数で2段に振り分け
+const catalogWorks1 = catalogWorks.filter((_, i) => i % 2 === 0);
+const catalogWorks2 = catalogWorks.filter((_, i) => i % 2 === 1);
+
+// ポスターを奇数・偶数で2段に振り分け
+const posterWorks1 = posterWorks.filter((_, i) => i % 2 === 0);
+const posterWorks2 = posterWorks.filter((_, i) => i % 2 === 1);
+
+document.getElementById('motionTrack').innerHTML   = [...motionWorks,   ...motionWorks].map(motionCard).join('');
+document.getElementById('catalogTrack1').innerHTML = [...catalogWorks1, ...catalogWorks1].map(w => graphicCard(w, 'Catalog')).join('');
+document.getElementById('catalogTrack2').innerHTML = [...catalogWorks2, ...catalogWorks2].map(w => graphicCard(w, 'Catalog')).join('');
+document.getElementById('posterTrack1').innerHTML  = [...posterWorks1,  ...posterWorks1].map(w => graphicCard(w, 'Poster')).join('');
+document.getElementById('posterTrack2').innerHTML  = [...posterWorks2,  ...posterWorks2].map(w => graphicCard(w, 'Poster')).join('');
+
+// ============================================================
+// 🎞️ マーキー自動スクロール制御
+// ============================================================
+// 速度を変えたい場合は HTML 側の data-speed="0.4" を変更
+// 0.3 = ゆっくり / 0.6 = 普通 / 1.0 = 速め
+function initMarquee(marqueeId) {
+  const el = document.getElementById(marqueeId);
+  if (!el) return;
+
+  const direction = el.dataset.direction === 'right' ? -1 : 1;
+  const speed = parseFloat(el.dataset.speed) || 0.4;
+  let paused = false;
+  let isUserScrolling = false;
+  let userScrollTimer = null;
+
+  // 初期位置（rightスタートのトラックは真ん中寄りから）
+  // 複製して2倍のコンテンツ幅があるので、半分の位置からスタートしてループ可能にする
+  requestAnimationFrame(() => {
+    const trackWidth = el.scrollWidth;
+    const halfWidth = trackWidth / 2;
+    if (direction === -1) {
+      el.scrollLeft = halfWidth;
+    }
+  });
+
+  // 自動スクロール（requestAnimationFrame）
+  function tick() {
+    if (!paused && !isUserScrolling) {
+      const halfWidth = el.scrollWidth / 2;
+      el.scrollLeft += speed * direction;
+      // シームレスループ
+      if (el.scrollLeft >= halfWidth) {
+        el.scrollLeft -= halfWidth;
+      } else if (el.scrollLeft <= 0) {
+        el.scrollLeft += halfWidth;
+      }
+    }
+    requestAnimationFrame(tick);
+  }
+  requestAnimationFrame(tick);
+
+  // ホバーで一時停止
+  el.addEventListener('mouseenter', () => { paused = true; });
+  el.addEventListener('mouseleave', () => { paused = false; });
+
+  // ユーザー手動スクロール検知（ドラッグやホイール時）
+  el.addEventListener('scroll', () => {
+    // 自動スクロール中の scroll イベントも拾うので、ユーザー操作判定は別管理
+  }, { passive: true });
+
+  // ホイール / トラックパッド操作時は一時的に自動停止
+  el.addEventListener('wheel', () => {
+    isUserScrolling = true;
+    clearTimeout(userScrollTimer);
+    userScrollTimer = setTimeout(() => { isUserScrolling = false; }, 1500);
+  }, { passive: true });
+
+  // タッチ操作
+  el.addEventListener('touchstart', () => {
+    isUserScrolling = true;
+    clearTimeout(userScrollTimer);
+  }, { passive: true });
+  el.addEventListener('touchend', () => {
+    clearTimeout(userScrollTimer);
+    userScrollTimer = setTimeout(() => { isUserScrolling = false; }, 2000);
+  }, { passive: true });
+}
+
+initMarquee('motionMarquee');
+initMarquee('catalogMarquee1');
+initMarquee('catalogMarquee2');
+initMarquee('posterMarquee1');
+initMarquee('posterMarquee2');
+
+// ============================================================
+// ◀▶ 矢印ボタン制御
+// ============================================================
+document.querySelectorAll('.marquee-arrow').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = document.getElementById(btn.dataset.target);
+    if (!target) return;
+    const isPrev = btn.classList.contains('prev');
+    // カード1枚分くらい（約320〜560px）をスムーズにスクロール
+    const amount = target.clientWidth * 0.6;
+    target.scrollBy({ left: isPrev ? -amount : amount, behavior: 'smooth' });
+  });
+});
+
+// ===== ライトボックス =====
+const lightbox = document.getElementById('lightbox');
+const lbInner  = document.getElementById('lbInner');
+const lbClose  = document.getElementById('lbClose');
+
+document.querySelectorAll('.motion-card, .graphic-card').forEach(card => {
+  card.addEventListener('click', () => {
+    const type = card.dataset.type;
+    if (type === 'youtube') {
+      const id = card.dataset.id;
+      if (!id) return;
+      lbInner.innerHTML = `<iframe src="https://www.youtube.com/embed/${id}?autoplay=1" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>`;
+    } else {
+      const src = card.dataset.src;
+      if (!src) return;
+      lbInner.innerHTML = `<img src="${src}" alt="">`;
+    }
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  });
+});
+
+function closeLightbox() {
+  lightbox.classList.remove('open');
+  lbInner.innerHTML = '';
+  document.body.style.overflow = '';
+}
+
+lbClose.addEventListener('click', closeLightbox);
+lightbox.addEventListener('click', e => {
+  if (e.target === lightbox) closeLightbox();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeLightbox();
+});
+</script>
+
+</body>
+</html>
